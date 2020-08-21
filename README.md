@@ -45,5 +45,6 @@ showDialog(dialog, R.string.website, view, android.R.string.yes, View.OnClickLis
   
 }, false)
 //是否允许取消（除dialog.cancel()/dialog.dismiss() 不传默认允许）
+
 //支持全部文字参数使用String
 ```
