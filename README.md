@@ -2,6 +2,7 @@
 ```gradle
 implementation 'com.xfq:bottomDialog:1.0'
 ```
+你可能还需要导入其他依赖 请自行根据`BottomDialog.kt`的缺库报错信息进行导入
 # 使用
 ## 提示/确认框示例
 ```kotlin
