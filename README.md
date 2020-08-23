@@ -1,7 +1,7 @@
 # 导入
 *请注意：1.1版本的调用方式存在很大不同 建议再次仔细查看使用说明或阅读源码（请放心 源码并不长且包含注释 可读性也强）*
 ```gradle
-implementation 'com.xfq:bottomDialog:1.2'
+implementation 'com.xfq:bottomDialog:1.3'
 ```
 你可能还需要导入其他依赖 请自行根据`BottomDialog.kt`的缺库报错信息进行导入
 # 使用

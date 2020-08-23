@@ -77,7 +77,7 @@ object EditDialog {
             EditDialog
         } else {
             button = true
-            view!!.findViewById<Button>(R.id.button1).apply {
+            view!!.findViewById<Button>(R.id.button).apply {
                 visibility = View.VISIBLE
                 text = getResString(title)
                 setOnClickListener(onClick)
