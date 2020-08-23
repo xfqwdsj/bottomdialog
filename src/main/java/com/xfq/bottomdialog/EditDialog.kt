@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,7 +17,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 object EditDialog {
     private var context: Context? = null
     private var title: String? = null
-    private var content: String? = null
     private var button: Boolean = false
     private var cancelAble: Boolean = true
     private var view: View? = null
@@ -123,9 +123,10 @@ object EditDialog {
      * 显示Dialog
      */
     fun show(): Boolean {
-        return if (dialog == null || context == null || title == null || content === null || view == null || !button) {
+        return if (dialog == null || context == null || title == null || view == null || !button) {
             false
         } else {
+            view!!.findViewById<TextView>(R.id.title).text = title
             dialog!!.setContentView(view!!)
             dialog!!.setCancelable(cancelAble)
             dialog!!.setCanceledOnTouchOutside(cancelAble)

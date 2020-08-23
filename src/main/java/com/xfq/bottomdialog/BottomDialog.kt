@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -191,7 +192,7 @@ object BottomDialog {
         return if (dialog == null || context == null || title == null || content === null || view == null) {
             false
         } else {
-            if (!button1 || !button2 || !button3) {
+            if (!button1 && !button2 && !button3) {
                 view!!.findViewById<Button>(R.id.button1).apply {
                     visibility = View.VISIBLE
                     text = getResString(android.R.string.cancel)
@@ -203,6 +204,8 @@ object BottomDialog {
                     }
                 }
             }
+            view!!.findViewById<TextView>(R.id.title).text = title
+            view!!.findViewById<TextView>(R.id.content).text = content
             dialog!!.setContentView(view!!)
             dialog!!.setCancelable(cancelAble)
             dialog!!.setCanceledOnTouchOutside(cancelAble)
