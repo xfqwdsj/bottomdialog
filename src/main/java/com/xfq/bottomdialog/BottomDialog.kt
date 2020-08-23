@@ -4,509 +4,220 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
- * BottomSheetDialog 工具类
  * @author QQ:2996681473
  */
 
 object BottomDialog {
     private var context: Context? = null
+    private var title: String? = null
+    private var content: String? = null
+    private var button1: Boolean = false
+    private var button2: Boolean = false
+    private var button3: Boolean = false
+    private var cancelAble: Boolean = true
+    private var view: View? = null
+    private var dialog: BottomSheetDialog? = null
 
     /**
-     * 显示一个无按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
+     * 初始化操作
+     * @param context 一般传入一个Activity 如果传别的context大部分情况也没问题的
+     * @return BottomDialog对象
      */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, cancelAble: Boolean) {
-        val constraint = ConstraintLayout(context)
-        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_dialog, constraint, false)
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.content).text = content
-        view.findViewById<Button>(R.id.button1).text = getResString(android.R.string.cancel)
-        view.findViewById<Button>(R.id.button1).isEnabled = false
-        view.findViewById<Button>(R.id.button2).visibility = View.GONE
-        view.findViewById<Button>(R.id.button3).visibility = View.GONE
-        dialog.setContentView(view)
-        dialog.setCancelable(cancelAble)
-        dialog.setCanceledOnTouchOutside(cancelAble)
-        dialog.show()
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
-                    dialog.cancel()
-                }
-            }
-        })
-    }
-
-    /**
-     * 显示一个无按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), getResString(content), cancelAble)
-    }
-
-    /**
-     * 显示一个无按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), content, cancelAble)
-    }
-
-    /**
-     * 显示一个无按钮底部弹窗 并不允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String) {
-        showDialog(dialog, title, content, false)
-    }
-
-    /**
-     * 显示一个无按钮底部弹窗 并不允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int) {
-        showDialog(dialog, getResString(title), getResString(content), false)
-    }
-
-    /**
-     * 显示一个无按钮底部弹窗 并不允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String) {
-        showDialog(dialog, getResString(title), content, false)
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button1OnClick: View.OnClickListener, cancelAble: Boolean) {
-        val constraint = ConstraintLayout(context)
-        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_dialog, constraint, false)
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.content).text = content
-        view.findViewById<Button>(R.id.button1).text = button1Title
-        view.findViewById<Button>(R.id.button2).visibility = View.GONE
-        view.findViewById<Button>(R.id.button3).visibility = View.GONE
-        view.findViewById<Button>(R.id.button1).setOnClickListener(button1OnClick)
-        dialog.setContentView(view)
-        dialog.setCancelable(cancelAble)
-        dialog.setCanceledOnTouchOutside(cancelAble)
-        dialog.show()
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
-                    dialog.cancel()
-                }
-            }
-        })
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button1OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), button1OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button1OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), button1OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button1OnClick: View.OnClickListener) {
-        showDialog(dialog, title, content, button1Title, button1OnClick, true)
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button1OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), button1OnClick, true)
-    }
-
-    /**
-     * 显示一个单按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮显示的文字
-     * @param button1OnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button1OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), button1OnClick, true)
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button2Title: String, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, cancelAble: Boolean) {
-        val constraint = ConstraintLayout(context)
-        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_dialog, constraint, false)
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.content).text = content
-        view.findViewById<Button>(R.id.button1).text = button1Title
-        view.findViewById<Button>(R.id.button2).text = button2Title
-        view.findViewById<Button>(R.id.button3).visibility = View.GONE
-        view.findViewById<Button>(R.id.button1).setOnClickListener(button1OnClick)
-        view.findViewById<Button>(R.id.button2).setOnClickListener(button2OnClick)
-        dialog.setContentView(view)
-        dialog.setCancelable(cancelAble)
-        dialog.setCanceledOnTouchOutside(cancelAble)
-        dialog.show()
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
-                    dialog.cancel()
-                }
-            }
-        })
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button2Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), getResString(button2Title), button1OnClick, button2OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button2Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), getResString(button2Title), button1OnClick, button2OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button2Title: String, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener) {
-        showDialog(dialog, title, content, button1Title, button2Title, button1OnClick, button2OnClick, true)
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button2Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), getResString(button2Title), button1OnClick, button2OnClick, true)
-    }
-
-    /**
-     * 显示一个双按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button2Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), getResString(button2Title), button1OnClick, button2OnClick, true)
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button2Title: String, button3Title: String, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener, cancelAble: Boolean) {
-        val constraint = ConstraintLayout(context)
-        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_dialog, constraint, false)
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.content).text = content
-        view.findViewById<Button>(R.id.button1).text = button1Title
-        view.findViewById<Button>(R.id.button2).text = button2Title
-        view.findViewById<Button>(R.id.button3).text = button3Title
-        view.findViewById<Button>(R.id.button1).setOnClickListener(button1OnClick)
-        view.findViewById<Button>(R.id.button2).setOnClickListener(button2OnClick)
-        view.findViewById<Button>(R.id.button3).setOnClickListener(button3OnClick)
-        dialog.setContentView(view)
-        dialog.setCancelable(cancelAble)
-        dialog.setCanceledOnTouchOutside(cancelAble)
-        dialog.show()
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
-                    dialog.cancel()
-                }
-            }
-        })
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button2Title: Int, button3Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), getResString(button2Title), getResString(button3Title), button1OnClick, button2OnClick, button3OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button2Title: Int, button3Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), getResString(button2Title), getResString(button3Title), button1OnClick, button2OnClick, button3OnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, content: String, button1Title: String, button2Title: String, button3Title: String, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener) {
-        showDialog(dialog, title, content, button1Title, button2Title, button3Title, button1OnClick, button2OnClick, button3OnClick, true)
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: Int, button1Title: Int, button2Title: Int, button3Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), getResString(content), getResString(button1Title), getResString(button2Title), getResString(button3Title), button1OnClick, button2OnClick, button3OnClick, true)
-    }
-
-    /**
-     * 显示一个三按钮底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param content 弹窗内容
-     * @param button1Title 按钮1显示的文字
-     * @param button2Title 按钮2显示的文字
-     * @param button3Title 按钮3显示的文字
-     * @param button1OnClick 按钮1点击事件 最好在第一行加入dialog.cancel()
-     * @param button2OnClick 按钮2点击事件 最好在第一行加入dialog.cancel()
-     * @param button3OnClick 按钮3点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, content: String, button1Title: Int, button2Title: Int, button3Title: Int, button1OnClick: View.OnClickListener, button2OnClick: View.OnClickListener, button3OnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), content, getResString(button1Title), getResString(button2Title), getResString(button3Title), button1OnClick, button2OnClick, button3OnClick, true)
-    }
-
-    /**
-     * 显示一个带EditText的底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param view 一个View 可以通过getView()获得
-     * @param buttonTitle 按钮显示的文字
-     * @param buttonOnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, view: View, buttonTitle: String, buttonOnClick: View.OnClickListener, cancelAble: Boolean) {
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<Button>(R.id.button).text = buttonTitle
-        view.findViewById<Button>(R.id.button).setOnClickListener(buttonOnClick)
-        dialog.setContentView(view)
-        dialog.setCancelable(cancelAble)
-        dialog.setCanceledOnTouchOutside(cancelAble)
-        dialog.show()
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
-                    dialog.cancel()
-                }
-            }
-        })
-    }
-
-    /**
-     * 显示一个带EditText的底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param view 一个View 可以通过getView()获得
-     * @param buttonTitle 按钮显示的文字
-     * @param buttonOnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, view: View, buttonTitle: Int, buttonOnClick: View.OnClickListener, cancelAble: Boolean) {
-        showDialog(dialog, getResString(title), view, getResString(buttonTitle), buttonOnClick, cancelAble)
-    }
-
-    /**
-     * 显示一个带EditText的底部弹窗 并允许下拉/点击外部取消弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param view 一个View 可以通过getView()获得
-     * @param buttonTitle 按钮显示的文字
-     * @param buttonOnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: String, view: View, buttonTitle: String, buttonOnClick: View.OnClickListener) {
-        showDialog(dialog, title, view, buttonTitle, buttonOnClick, false)
-    }
-
-    /**
-     * 显示一个带EditText的底部弹窗
-     * @param dialog 一个BottomSheetDialog 可以通过createDialog(context)获得
-     * @param title 弹窗标题
-     * @param view 一个View 可以通过getView()获得
-     * @param buttonTitle 按钮显示的文字
-     * @param buttonOnClick 按钮点击事件 最好在第一行加入dialog.cancel()
-     * @param cancelAble 是否能通过下拉/点击外部取消弹窗
-     */
-    fun showDialog(dialog: BottomSheetDialog, title: Int, view: View, buttonTitle: Int, buttonOnClick: View.OnClickListener) {
-        showDialog(dialog, getResString(title), view, getResString(buttonTitle), buttonOnClick, true)
-    }
-
-    /**
-     * 创建一个Dialog
-     * @param context 一个context 最好是一个Activity对象
-     * @return Dialog对象
-     */
-    fun createDialog(context: Context): BottomSheetDialog {
+    fun BottomDialog(context: Context): BottomDialog {
+        this.dialog = BottomSheetDialog(context, R.style.BottomSheetDialog)
         this.context = context
-        return BottomSheetDialog(context, R.style.BottomSheetDialog)
+        val constraint = ConstraintLayout(context)
+        this.view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_dialog, constraint, false)
+        return this
     }
 
     /**
-     * 获取带EditText弹窗的View
-     * @return 一个View EditText的id为R.id.editText
+     * 设置标题
      */
-    fun getView(): View {
-        val constraint = ConstraintLayout(context)
-        return LayoutInflater.from(context).inflate(R.layout.bottom_sheet_input_dialog, constraint, false)
+    fun setTitle(title: String): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            this.title = title
+            this
+        }
+    }
+
+    fun setTitle(title: Int): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            this.title = getResString(title)
+            this
+        }
+    }
+
+    /**
+     * 设置内容
+     */
+    fun setContent(content: String): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            this.content = content
+            this
+        }
+    }
+
+    fun setContent(content: Int): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            this.content = getResString(content)
+            this
+        }
+    }
+
+    /**
+     * 设置按钮
+     */
+    fun setButton1(title: String, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button1 = true
+            view!!.findViewById<Button>(R.id.button1).apply {
+                visibility = View.VISIBLE
+                text = title
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    fun setButton1(title: Int, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button1 = true
+            view!!.findViewById<Button>(R.id.button1).apply {
+                visibility = View.VISIBLE
+                text = getResString(title)
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    fun setButton2(title: String, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button2 = true
+            view!!.findViewById<Button>(R.id.button2).apply {
+                visibility = View.VISIBLE
+                text = title
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    fun setButton2(title: Int, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button2 = true
+            view!!.findViewById<Button>(R.id.button2).apply {
+                visibility = View.VISIBLE
+                text = getResString(title)
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    fun setButton3(title: String, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button3 = true
+            view!!.findViewById<Button>(R.id.button3).apply {
+                visibility = View.VISIBLE
+                text = title
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    fun setButton3(title: Int, onClick: View.OnClickListener): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            button3 = true
+            view!!.findViewById<Button>(R.id.button3).apply {
+                visibility = View.VISIBLE
+                text = getResString(title)
+                setOnClickListener(onClick)
+            }
+            this
+        }
+    }
+
+    /**
+     * 是否能取消
+     */
+    fun setCancelAble(cancelAble: Boolean): BottomDialog {
+        return if (context == null) {
+            BottomDialog
+        } else {
+            this.cancelAble = cancelAble
+            this
+        }
+    }
+
+    /**
+     * 关闭Dialog
+     */
+    fun close() {
+        dialog?.cancel()
+    }
+
+    /**
+     * 显示Dialog 如没有设置Button则会显示一个Button并根据cancelAble设置它的isEnabled属性和点击事件
+     */
+    fun show(): Boolean {
+        return if (dialog == null || context == null || title == null || content === null || view == null) {
+            false
+        } else {
+            if (!button1 || !button2 || !button3) {
+                view!!.findViewById<Button>(R.id.button1).apply {
+                    visibility = View.VISIBLE
+                    text = getResString(android.R.string.cancel)
+                    isEnabled = cancelAble
+                    if (cancelAble) {
+                        setOnClickListener {
+                            close()
+                        }
+                    }
+                }
+            }
+            dialog!!.setContentView(view!!)
+            dialog!!.setCancelable(cancelAble)
+            dialog!!.setCanceledOnTouchOutside(cancelAble)
+            dialog!!.show()
+            dialog!!.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            dialog!!.behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_SETTLING) {
+                        close()
+                    }
+                }
+            })
+            true
+        }
     }
 
     /**
