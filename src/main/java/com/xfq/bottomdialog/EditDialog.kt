@@ -99,22 +99,10 @@ object EditDialog {
     }
 
     /**
-     * 设置View 一般用在需要自定义EditText时
+     * 获取EditText 一般用在需要自定义EditText时
      */
-    fun setView(view: View): EditDialog {
-        return if (context == null) {
-            EditDialog
-        } else {
-            this.view = view
-            this
-        }
-    }
-
-    /**
-     * 获取View 一般用在需要自定义EditText时
-     */
-    fun getView(): View? {
-        return this.view
+    fun getEdit(): EditText? {
+        return view?.findViewById(R.id.editText)
     }
 
     /**
