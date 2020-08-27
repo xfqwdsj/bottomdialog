@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
  * @author QQ:2996681473
  */
 
-object BottomDialog {
+class BottomDialog {
     private var context: Context? = null
     private var title: String? = null
     private var content: String? = null
@@ -29,7 +29,7 @@ object BottomDialog {
      * @param context 一般传入一个Activity 如果传别的context大部分情况也没问题的
      * @return BottomDialog对象
      */
-    fun BottomDialog(context: Context): BottomDialog {
+    fun create(context: Context): BottomDialog {
         this.dialog = BottomSheetDialog(context, R.style.BottomSheetDialog)
         this.context = context
         val constraint = ConstraintLayout(context)
@@ -42,7 +42,7 @@ object BottomDialog {
      */
     fun setTitle(title: String): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             this.title = title
             this
@@ -51,7 +51,7 @@ object BottomDialog {
 
     fun setTitle(title: Int): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             this.title = getResString(title)
             this
@@ -63,7 +63,7 @@ object BottomDialog {
      */
     fun setContent(content: String): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             this.content = content
             this
@@ -72,7 +72,7 @@ object BottomDialog {
 
     fun setContent(content: Int): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             this.content = getResString(content)
             this
@@ -84,7 +84,7 @@ object BottomDialog {
      */
     fun setButton1(title: String, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button1 = true
             view!!.findViewById<Button>(R.id.button1).apply {
@@ -98,7 +98,7 @@ object BottomDialog {
 
     fun setButton1(title: Int, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button1 = true
             view!!.findViewById<Button>(R.id.button1).apply {
@@ -112,7 +112,7 @@ object BottomDialog {
 
     fun setButton2(title: String, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button2 = true
             view!!.findViewById<Button>(R.id.button2).apply {
@@ -126,7 +126,7 @@ object BottomDialog {
 
     fun setButton2(title: Int, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button2 = true
             view!!.findViewById<Button>(R.id.button2).apply {
@@ -140,7 +140,7 @@ object BottomDialog {
 
     fun setButton3(title: String, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button3 = true
             view!!.findViewById<Button>(R.id.button3).apply {
@@ -154,7 +154,7 @@ object BottomDialog {
 
     fun setButton3(title: Int, onClick: View.OnClickListener): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             button3 = true
             view!!.findViewById<Button>(R.id.button3).apply {
@@ -171,7 +171,7 @@ object BottomDialog {
      */
     fun setCancelAble(cancelAble: Boolean): BottomDialog {
         return if (context == null) {
-            BottomDialog
+            BottomDialog()
         } else {
             this.cancelAble = cancelAble
             this

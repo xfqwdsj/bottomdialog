@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
  * @author QQ:2996681473
  */
 
-object EditDialog {
+class EditDialog {
     private var context: Context? = null
     private var title: String? = null
     private var button: Boolean = false
@@ -27,7 +27,7 @@ object EditDialog {
      * @param context 一般传入一个Activity 如果传别的context大部分情况也没问题的
      * @return EditDialog对象
      */
-    fun EditDialog(context: Context): EditDialog {
+    fun create(context: Context): EditDialog {
         this.dialog = BottomSheetDialog(context, R.style.BottomSheetDialog)
         this.context = context
         val constraint = ConstraintLayout(context)
@@ -40,7 +40,7 @@ object EditDialog {
      */
     fun setTitle(title: String): EditDialog {
         return if (context == null) {
-            EditDialog
+            EditDialog()
         } else {
             this.title = title
             this
@@ -49,7 +49,7 @@ object EditDialog {
 
     fun setTitle(title: Int): EditDialog {
         return if (context == null) {
-            EditDialog
+            EditDialog()
         } else {
             this.title = getResString(title)
             this
@@ -61,7 +61,7 @@ object EditDialog {
      */
     fun setButton(title: String, onClick: View.OnClickListener): EditDialog {
         return if (context == null) {
-            EditDialog
+            EditDialog()
         } else {
             button = true
             view!!.findViewById<Button>(R.id.button).apply {
@@ -74,7 +74,7 @@ object EditDialog {
 
     fun setButton(title: Int, onClick: View.OnClickListener): EditDialog {
         return if (context == null) {
-            EditDialog
+            EditDialog()
         } else {
             button = true
             view!!.findViewById<Button>(R.id.button).apply {
@@ -91,7 +91,7 @@ object EditDialog {
      */
     fun setCancelAble(cancelAble: Boolean): EditDialog {
         return if (context == null) {
-            EditDialog
+            EditDialog()
         } else {
             this.cancelAble = cancelAble
             this

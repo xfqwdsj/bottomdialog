@@ -50,7 +50,7 @@ def gitUrl = 'https://github.com/xfqwdsj/bottomdialog.git'
 
 group = "com.xfq"
 def libName = "bottomdialog"
-version = "1.5"
+version = "1.6"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
