@@ -48,42 +48,30 @@ class EditDialog {
     }
 
     fun setTitle(title: Int): EditDialog {
-        return if (context == null) {
-            EditDialog()
-        } else {
-            this.title = getResString(title)
-            this
-        }
+        return setTitle(getResString(title))
     }
 
     /**
      * 设置按钮
      */
-    fun setButton(title: String, onClick: View.OnClickListener): EditDialog {
+    fun setButton(title: String, onClick: () -> Unit): EditDialog {
         return if (context == null) {
             EditDialog()
         } else {
             button = true
             view!!.findViewById<Button>(R.id.button).apply {
                 text = title
-                setOnClickListener(onClick)
+                setOnClickListener {
+                    onClick()
+                    close()
+                }
             }
             this
         }
     }
 
-    fun setButton(title: Int, onClick: View.OnClickListener): EditDialog {
-        return if (context == null) {
-            EditDialog()
-        } else {
-            button = true
-            view!!.findViewById<Button>(R.id.button).apply {
-                visibility = View.VISIBLE
-                text = getResString(title)
-                setOnClickListener(onClick)
-            }
-            this
-        }
+    fun setButton(title: Int, onClick: () -> Unit): EditDialog {
+        return setButton(getResString(title), onClick)
     }
 
     /**

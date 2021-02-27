@@ -50,12 +50,7 @@ class BottomDialog {
     }
 
     fun setTitle(title: Int): BottomDialog {
-        return if (context == null) {
-            BottomDialog()
-        } else {
-            this.title = getResString(title)
-            this
-        }
+        return setTitle(getResString(title))
     }
 
     /**
@@ -71,18 +66,13 @@ class BottomDialog {
     }
 
     fun setContent(content: Int): BottomDialog {
-        return if (context == null) {
-            BottomDialog()
-        } else {
-            this.content = getResString(content)
-            this
-        }
+        return setContent(getResString(content))
     }
 
     /**
      * 设置按钮
      */
-    fun setButton1(title: String, onClick: View.OnClickListener): BottomDialog {
+    fun setButton1(title: String, onClick: () -> Unit): BottomDialog {
         return if (context == null) {
             BottomDialog()
         } else {
@@ -90,27 +80,20 @@ class BottomDialog {
             view!!.findViewById<Button>(R.id.button1).apply {
                 visibility = View.VISIBLE
                 text = title
-                setOnClickListener(onClick)
+                setOnClickListener {
+                    onClick()
+                    close()
+                }
             }
             this
         }
     }
 
-    fun setButton1(title: Int, onClick: View.OnClickListener): BottomDialog {
-        return if (context == null) {
-            BottomDialog()
-        } else {
-            button1 = true
-            view!!.findViewById<Button>(R.id.button1).apply {
-                visibility = View.VISIBLE
-                text = getResString(title)
-                setOnClickListener(onClick)
-            }
-            this
-        }
+    fun setButton1(title: Int, onClick: () -> Unit): BottomDialog {
+        return setButton1(getResString(title), onClick)
     }
 
-    fun setButton2(title: String, onClick: View.OnClickListener): BottomDialog {
+    fun setButton2(title: String, onClick: () -> Unit): BottomDialog {
         return if (context == null) {
             BottomDialog()
         } else {
@@ -118,27 +101,20 @@ class BottomDialog {
             view!!.findViewById<Button>(R.id.button2).apply {
                 visibility = View.VISIBLE
                 text = title
-                setOnClickListener(onClick)
+                setOnClickListener {
+                    onClick()
+                    close()
+                }
             }
             this
         }
     }
 
-    fun setButton2(title: Int, onClick: View.OnClickListener): BottomDialog {
-        return if (context == null) {
-            BottomDialog()
-        } else {
-            button2 = true
-            view!!.findViewById<Button>(R.id.button2).apply {
-                visibility = View.VISIBLE
-                text = getResString(title)
-                setOnClickListener(onClick)
-            }
-            this
-        }
+    fun setButton2(title: Int, onClick: () -> Unit): BottomDialog {
+        return setButton2(getResString(title), onClick)
     }
 
-    fun setButton3(title: String, onClick: View.OnClickListener): BottomDialog {
+    fun setButton3(title: String, onClick: () -> Unit): BottomDialog {
         return if (context == null) {
             BottomDialog()
         } else {
@@ -146,24 +122,17 @@ class BottomDialog {
             view!!.findViewById<Button>(R.id.button3).apply {
                 visibility = View.VISIBLE
                 text = title
-                setOnClickListener(onClick)
+                setOnClickListener {
+                    onClick()
+                    close()
+                }
             }
             this
         }
     }
 
-    fun setButton3(title: Int, onClick: View.OnClickListener): BottomDialog {
-        return if (context == null) {
-            BottomDialog()
-        } else {
-            button3 = true
-            view!!.findViewById<Button>(R.id.button3).apply {
-                visibility = View.VISIBLE
-                text = getResString(title)
-                setOnClickListener(onClick)
-            }
-            this
-        }
+    fun setButton3(title: Int, onClick: () -> Unit): BottomDialog {
+        return setButton3(getResString(title), onClick)
     }
 
     /**
